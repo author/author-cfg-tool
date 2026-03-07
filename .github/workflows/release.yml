@@ -62,5 +62,17 @@ jobs:
             --notes "Release $VERSION"
 
       - name: Publish to npm
+        id: publish
         if: steps.tag.outputs.exists == 'false'
+        continue-on-error: true
         run: npm publish --provenance --access public --tag ${{ steps.version.outputs.tag }}
+
+      - name: Roll back release and tag on publish failure
+        if: steps.tag.outputs.exists == 'false' && steps.publish.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          gh release delete "$VERSION" --cleanup-tag --yes
+          echo "npm publish failed; rolled back release and tag ${VERSION}."
+          exit 1
