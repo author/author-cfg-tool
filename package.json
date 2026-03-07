@@ -1,12 +1,12 @@
 {
   "name": "@authorsoftware/config",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "Author application configuration utility.",
   "bin": {
-    "author-verify": "./verify.js",
-    "author-icon": "./icon.js",
-    "author-instructions": "./agent.js",
-    "author-example": "./example.js"
+    "author-verify": "verify.js",
+    "author-icon": "icon.js",
+    "author-instructions": "agent.js",
+    "author-example": "example.js"
   },
   "keywords": [
     "author",
@@ -17,7 +17,7 @@
   "author": "Author Software Inc.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/author/author-cfg-tool"
+    "url": "git+https://github.com/author/author-cfg-tool.git"
   },
   "engines": {
     "node": ">=20.11.0"
