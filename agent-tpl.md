@@ -6,8 +6,8 @@ A file for [guiding coding agents](https://agents.md/).
 
 These commands require Node.js.
 
-- Verify: `npx --package @authorsoftware/config author-test`
-- Icon: `npx --package @authorsoftware/config author-icon [filepath_or_url] [--dark]`
+- Verify: `npx --package @authorsoftware/config --call "author-test"`
+- Icon: `npx --package @authorsoftware/config --call "author-icon [filepath_or_url] [--dark]"`
 
 If npx is blocked, run `npm i @authorsoftware/config` and replace `npx --package @authorsoftware/config` with `npm exec --package @authorsoftware/config` for each command.
 
