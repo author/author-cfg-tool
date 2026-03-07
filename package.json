@@ -3,10 +3,10 @@
   "version": "1.0.0-alpha.2",
   "description": "Author application configuration utility.",
   "bin": {
-    "test": "./verify.js",
-    "icon": "./icon.js",
-    "instructions": "./agent.js",
-    "create-example": "./example.js"
+    "author-verify": "./verify.js",
+    "author-icon": "./icon.js",
+    "author-instructions": "./agent.js",
+    "author-example": "./example.js"
   },
   "keywords": [
     "author",
@@ -22,10 +22,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "npx:instructions": "npm exec --yes instructions --",
-    "npx:test": "npm exec --yes test --",
-    "npx:icon": "npm exec --yes icon --",
-    "npx:create-example": "npm exec --yes create-example --"
+    "npx:instructions": "npm exec --yes author-instructions --",
+    "npx:test": "npm exec --yes author-verify --",
+    "npx:icon": "npm exec --yes author-icon --",
+    "npx:create-example": "npm exec --yes author-example --"
   },
   "dependencies": {
     "@resvg/resvg-js": "^2.6.2",
