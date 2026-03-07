@@ -1,6 +1,6 @@
 {
   "name": "@authorsoftware/config",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "description": "Author application configuration utility.",
   "bin": {
     "test": "./verify.js",
