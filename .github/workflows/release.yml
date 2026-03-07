@@ -32,6 +32,13 @@ jobs:
           fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
+          # Determine npm tag based on version (prerelease vs stable)
+          if echo "$VERSION" | grep -Eq '\-(alpha|beta|rc|pre|preview|dev|next)'; then
+            echo "tag=prerelease" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=latest" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Check if tag exists
         id: tag
         run: |
@@ -56,4 +63,4 @@ jobs:
 
       - name: Publish to npm
         if: steps.tag.outputs.exists == 'false'
-        run: npm publish --provenance --access public
+        run: npm publish --provenance --access public --tag ${{ steps.version.outputs.tag }}
