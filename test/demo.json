@@ -1,0 +1,93 @@
+{
+  "bin": {
+    "darwin": { "arm64": "demo" },
+    "windows": { "amd64": "demo.exe" }
+  },
+  "latest_version": "1.0.0",
+  "label": "Demo App",
+  "description": "Minimal example showing all config schema elements.",
+  "envs": {
+    "DEMO_TOKEN": {
+      "summary": "API token for authenticated requests.",
+      "release": "1.0.0",
+      "secret": true
+    }
+  },
+  "flags": {
+    "--mode": {
+      "summary": "Execution mode.",
+      "release": "1.0.0",
+      "type": "string",
+      "default": "safe",
+      "enum": ["safe", "fast"]
+    },
+    "--tag": {
+      "summary": "Add one or more tags.",
+      "release": "1.0.0",
+      "alias": ["-t"],
+      "type": "string",
+      "allow_multiple": true,
+      "separator": ["=", " "],
+      "exclude": ["1.2.3"]
+    },
+    "--legacy": {
+      "summary": "Legacy behavior toggle.",
+      "pre": "0.9.0",
+      "eod": "2.0.0",
+      "eol": "3.0.0",
+      "type": "boolean"
+    }
+  },
+  "args": {
+    "input": {
+      "summary": "Input file path.",
+      "release": "1.0.0",
+      "position": 0,
+      "required": true,
+      "type": "file"
+    },
+    "extras": {
+      "summary": "Additional optional values.",
+      "release": "1.0.0",
+      "position": 1,
+      "variadic": true,
+      "required": false,
+      "type": "string"
+    }
+  },
+  "commands": {
+    "deploy": {
+      "summary": "Deploy the app.",
+      "release": "1.0.0",
+      "env": {
+        "DEPLOY_REGION": {
+          "summary": "Deployment region.",
+          "release": "1.0.0",
+          "default": "us-east-1"
+        }
+      },
+      "flag": {
+        "--dry-run": {
+          "summary": "Preview without changes.",
+          "release": "1.0.0",
+          "alias": ["-n"],
+          "type": "boolean"
+        }
+      },
+      "args": {
+        "target": {
+          "summary": "Deployment target.",
+          "release": "1.0.0",
+          "position": 0,
+          "type": "string"
+        }
+      },
+      "commands": {
+        "status": {
+          "summary": "Show deployment status.",
+          "release": "1.1.0"
+        }
+      }
+    }
+  }
+}

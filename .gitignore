@@ -1,0 +1,11 @@
+.*
+!.github
+!.github/**
+!.gitignore
+!.gitattributes
+*.gz
+*.tgz
+*.log
+node_modules
+demo.json
+!test/demo.json

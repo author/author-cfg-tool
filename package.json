@@ -1,0 +1,36 @@
+{
+  "name": "@authorsoftware/config",
+  "version": "1.0.0-alpha.1",
+  "description": "Author application configuration utility.",
+  "bin": {
+    "test": "./verify.js",
+    "icon": "./icon.js",
+    "instructions": "./agent.js",
+    "create-example": "./example.js"
+  },
+  "keywords": [
+    "author",
+    "config",
+    "author-cfg"
+  ],
+  "license": "MIT",
+  "author": "Author Software Inc.",
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "npx:instructions": "npm exec --yes instructions --",
+    "npx:test": "npm exec --yes test --",
+    "npx:icon": "npm exec --yes icon --",
+    "npx:create-example": "npm exec --yes create-example --"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "ajv": "^8.18.0",
+    "image-size": "^2.0.2",
+    "jimp": "^0.22.12"
+  }
+}
