@@ -1,6 +1,6 @@
 {
   "name": "@authorsoftware/config",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "Author application configuration utility.",
   "bin": {
     "test": "./verify.js",
@@ -32,5 +32,9 @@
     "ajv": "^8.18.0",
     "image-size": "^2.0.2",
     "jimp": "^0.22.12"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   }
 }

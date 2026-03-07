@@ -1,9 +1,16 @@
 #!/usr/bin/env node
-import { cp } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
 import { join, basename } from 'node:path'
 
 const source = join(import.meta.dirname, 'test/demo.json')
+const file = basename(source)
+const out = join(import.meta.dirname, file)
+const content = JSON.parse(await readFile(source, 'utf8'))
+const res = await fetch('https://cdn.author.io/.well-known/schema/author-cfg/config.json')
+const schema = await res.json()
 
-await cp(source, join(import.meta.dirname, basename(source)), { force: true })
+content.schema = schema.version
 
-console.log(`generated ${basename(source)}`)
+await writeFile(out, JSON.stringify(content, null, 2), 'utf8')
+
+console.log(`generated ${file} with schema version ${schema.version}`)
