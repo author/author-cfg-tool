@@ -19,7 +19,7 @@ Always follow the rules.
 
 ## Rules
 
-1. Prompts may contain custom values identified by `< variable >` notation. Ask user for unknown values.
+1. Prompts may contain custom values identified by `<variable>` notation. Ask user for unknown values.
 2. Never delete commands, flags, arguments, or environment variables.
   - Hint: removed values suggest an EOL/EOD attribute requires update.
   - Hint: reintroduced values suggest removal of EOD/EOL and update/creation of the exclude attribute.
@@ -34,7 +34,7 @@ Run `<app_name> --help` to acquire initial data. Extract results into config.jso
 
 Run `<app_name> --help` to acquire current data. Update config.json using the Author Config JSON Schema spec. Verify the config. Repeat for each subcommand, recursively.
 
-### Directory Structure
+## Directory Structure
 
 - config.json
 - icon.png (optional)
@@ -46,4 +46,5 @@ The icon should be 512px x 512px. An optional 16px x 16px icon may be supplied f
 
 ### References
 
-- [Author Config JSON Schema](https://cdn.author.io/.well-known/schema/author-cfg/config.json)
+- [Latest Author Config JSON Schema](https://cdn.author.io/.well-known/schema/author-cfg/config.json)
+- [Available Versions](https://cdn.author.io/.well-known/schema/author-cfg/versions.txt) available at `https://cdn.author.io/.well-known/schema/author-cfg/<version>/config.json`. Prefer the latest.

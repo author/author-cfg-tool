@@ -7,36 +7,92 @@ import { existsSync } from 'node:fs'
 console.log('verifying...')
 
 // Config Validation
-const configPath = process.argv[2] || './config.json'
+const cliArgs = process.argv.slice(2)
+let configPath = './config.json'
+let version = ''
+
+for (let i = 0; i < cliArgs.length; i++) {
+  const arg = cliArgs[i]
+
+  if (arg === '--version' || arg === '-v') {
+    const value = cliArgs[i + 1]
+    if (value && !value.startsWith('-')) {
+      version = `/${value.replace(/^\/+/, '')}`
+      i++
+    }
+    continue
+  }
+
+  if (arg.startsWith('--version=')) {
+    const value = arg.split('=')[1]
+    if (value) {
+      version = `/${value.replace(/^\/+/, '')}`
+    }
+    continue
+  }
+
+  if (arg.startsWith('-v=')) {
+    const value = arg.split('=')[1]
+    if (value) {
+      version = `/${value.replace(/^\/+/, '')}`
+    }
+    continue
+  }
+
+  if (!arg.startsWith('-') && configPath === './config.json') {
+    configPath = arg
+  }
+}
+
 if (!existsSync(configPath)) {
   console.error(`Error: Config file not found: ${configPath}`)
   process.exit(1)
 }
 
+const errors = []
 const configFile = pathToFileURL(configPath)
 const config = await import(configFile.href, { with: { type: 'json' } })
-const res = await fetch('https://cdn.author.io/.well-known/schema/author-cfg/config.json')
-const schema = await res.json()
-const ajv = new Ajv2020()
-const validate = ajv.compile(schema)
-const valid = validate(config.default)
-const errors = []
+let schema
+const schemaUrl = `https://cdn.author.io/.well-known/schema/author-cfg${version}/config.json`
 
-if (!valid) {
-  const allErrors = validate.errors || []
-  const specificErrors = allErrors.filter(error => !['anyOf', 'oneOf', 'allOf'].includes(error.keyword))
-  const errorsToShow = specificErrors.length > 0 ? specificErrors : allErrors
-
-  const errs = {}
-  for (const error of errorsToShow) {
-    const key = `${error.keyword}|${error.instancePath}|${error.message}`
-    if (!errs[key]) {
-      errs[key] = error
-    }
+try {
+  const res = await fetch(schemaUrl)
+  if (!res.ok) {
+    errors.push(`failed to fetch schema v${version.replace(/^\/+/, '')} (${res.status} ${res.statusText})`)
+  } else {
+    schema = await res.json()
   }
+} catch (err) {
+  errors.push('failed to fetch schema')
+}
 
-  for (const e of Object.values(errs)) {
-    errors.push(`${e.message} at ${e.instancePath.length > 0 ? e.instancePath : '<root>'} (${e.schemaPath})`)
+if (schema) {
+  try {
+    const ajv = new Ajv2020()
+    ajv.addVocabulary(['version'])
+
+    const validate = ajv.compile(schema)
+    const valid = validate(config.default)
+
+    if (!valid) {
+      const allErrors = validate.errors || []
+      const specificErrors = allErrors.filter(error => !['anyOf', 'oneOf', 'allOf'].includes(error.keyword))
+      const errorsToShow = specificErrors.length > 0 ? specificErrors : allErrors
+
+      const errs = {}
+      for (const error of errorsToShow) {
+        const key = `${error.keyword}|${error.instancePath}|${error.message}`
+        if (!errs[key]) {
+          errs[key] = error
+        }
+      }
+
+      for (const e of Object.values(errs)) {
+        errors.push(`${e.message} at ${e.instancePath.length > 0 ? e.instancePath : '<root>'} (${e.schemaPath})`)
+      }
+    }
+  } catch (err) {
+    errors.push(`failed to compile schema: ${err.message}`)
   }
 }
 
