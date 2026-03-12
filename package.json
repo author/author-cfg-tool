@@ -1,11 +1,10 @@
 {
   "name": "@authorsoftware/config",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "Author application configuration utility.",
   "bin": {
     "author-verify": "verify.js",
     "author-icon": "icon.js",
-    "author-instructions": "agent.js",
     "author-example": "example.js"
   },
   "keywords": [
